@@ -9,3 +9,5 @@ I imagine this device to be an accessory to an old kiln my family owned while I 
 ## Background on the idea:
 While I was growing up, my family had a kiln for firing ceramics. With it, we could make charms, necklaces, flutes, and pottery. Despite the buttons and knobs, the kiln was an old device and required the user to adjust settings at certain hours. One such task was that after each fire, the lid would have to be propped open to release the heat and cool the pottery. If we did this too early, the day was too cold, or was too quickly, then this would lead to the ceramics shattering and possibly sending shards flying. One or more family members would have to  periodically check the contents of the kiln over the next few hours and adjust the prop accordingly. This is something I wished as a kid that the device could do itself.
 
+## Hardwareblock
+![Hardwareblock](/assets/hardwareblock.png)
