@@ -7,9 +7,9 @@
 
 ### What kind of processor is it?
 STM32F205RGY6 32-bit ARM Cortex-M3 microcontroller
-> ST’s STM32F205/215 microcontrollers are designed for medical, industrial and consumer applications where the high level of integration and performance, embedded memories and peripherals inside packages as small as 4 x 4 mm are required. [stm.com](processor on stm)
+> ST’s STM32F205/215 microcontrollers are designed for medical, industrial and consumer applications where the high level of integration and performance, embedded memories and peripherals inside packages as small as 4 x 4 mm are required. [stm.com][processor on stm]
 
-You can see more information about the STM32F205 [here on stm.com](processor on stm)
+You can see more information about the STM32F205 [here on stm.com][processor on stm]
 
 ### How much Flash and RAM does it have? Any other memory types?
 1MB flash, 128KB RAM
@@ -22,14 +22,14 @@ Broadcom BCM43362 Wi-Fi chip with support for 802.11b/g/n Wi-Fi
 
 ### How much does the board cost vs what the processor costs? Is the processor in stock anywhere? (Try Digikey, Mouser, Octopart, Google, and so on.)
 
-Product page for board on [SparkFun])(board on SparkFun)
-Is currently available as of 3/18/22 at the price of $41.95 for 1 unit
+Product page for board on [SparkFun][board on SparkFun]
+* Is currently available as of 3/18/22 at the price of $41.95 for 1 unit
 
-Product page for processor on [Mouser](processor on Mouser)
-Currently sold out as of 3/18/22
+Product page for processor on [Mouser][processor on Mouser]
+* Currently sold out as of 3/18/22
 
-Product page for processor on [Digikey](processor on Digikey)
-Currently sold out as of 3/18/22
+Product page for processor on [Digikey][processor on Digikey]
+* Currently sold out as of 3/18/22
 
 | Quantity | Unit Price | Ext Price  |
 | ---------|:----------:|-----------:|
