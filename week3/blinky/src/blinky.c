@@ -1,7 +1,6 @@
 #include "pico/stdlib.h"
 
 const uint LED_PIN = PICO_DEFAULT_LED_PIN;
-const uint PUSHBUTTON_PIN = 14;
 volatile bool LED_STATE;
 
 void button_callback(uint gpio, uint32_t events);
@@ -12,6 +11,7 @@ int main() {
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
 
+    const uint PUSHBUTTON_PIN = 15;
     gpio_init(PUSHBUTTON_PIN);
     gpio_set_dir(PUSHBUTTON_PIN, GPIO_IN);
     gpio_pull_up(PUSHBUTTON_PIN);
