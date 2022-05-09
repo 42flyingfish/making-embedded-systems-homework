@@ -6,6 +6,10 @@
 #include "hardware/uart.h"
 #include "pico/stdlib.h"
 
+#define UART_NUM uart0
+#define UART_TX 0
+#define UART_RX 1
+#define BAUD 115200
 
 eConsoleError ConsoleIoInit(void)
 {
@@ -17,10 +21,6 @@ eConsoleError ConsoleIoInit(void)
 	 * baudrate 115200
 	 */
 
-#define UART_NUM uart0
-#define UART_TX 0
-#define UART_RX 0
-#define BAUD 115200
 	uart_init(UART_NUM, BAUD);
 	gpio_set_function(UART_TX, GPIO_FUNC_UART);
 	gpio_set_function(UART_RX, GPIO_FUNC_UART);
@@ -45,7 +45,7 @@ eConsoleError ConsoleIoReceive(uint8_t *buffer, const uint32_t bufferLength, uin
 
 eConsoleError ConsoleIoSendString(const char *buffer)
 {
-	printf("%s", buffer);
+	uart_puts(UART_NUM, buffer);
 	return CONSOLE_SUCCESS;
 }
 
