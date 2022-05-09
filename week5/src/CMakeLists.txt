@@ -14,8 +14,9 @@ add_executable(console
 	consoleCommands.c
 	version.h
 )
+pico_generate_pio_header(console ${CMAKE_CURRENT_LIST_DIR}/uart_tx.pio)
+target_link_libraries(console pico_stdlib hardware_pio)
 pico_add_extra_outputs(console)
-target_link_libraries(console pico_stdlib)
 
 # enable uart output and disable usb output
 pico_enable_stdio_usb(console 0)

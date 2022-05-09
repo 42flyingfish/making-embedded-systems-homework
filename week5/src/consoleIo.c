@@ -5,14 +5,32 @@
 #include <stdio.h>
 #include "hardware/uart.h"
 #include "pico/stdlib.h"
+#include "hardware/pio.h"
+#include "uart_tx.pio.h"
 
 #define UART_NUM uart0
 #define UART_TX 0
 #define UART_RX 1
 #define BAUD 115200
 
+PIO pio;
+uint sm;
+uint offset;
+
 eConsoleError ConsoleIoInit(void)
 {
+
+	// We're going to use PIO to print "Hello, world!" on the same GPIO which we
+	// normally attach UART0 to.
+	const uint PIN_TX = 0;
+	// This is the same as the default UART baud rate on Pico
+	const uint SERIAL_BAUD = 115200;
+
+	pio = pio0;
+	sm = 0;
+	offset = pio_add_program(pio, &uart_tx_program);
+	uart_tx_program_init(pio, sm, offset, PIN_TX, SERIAL_BAUD);
+
 	/*
 	 * Sets up default urart
 	 * TX on GPIO 0
@@ -22,7 +40,7 @@ eConsoleError ConsoleIoInit(void)
 	 */
 
 	uart_init(UART_NUM, BAUD);
-	gpio_set_function(UART_TX, GPIO_FUNC_UART);
+	//gpio_set_function(UART_TX, GPIO_FUNC_UART);
 	gpio_set_function(UART_RX, GPIO_FUNC_UART);
 	return CONSOLE_SUCCESS;
 }
@@ -45,7 +63,8 @@ eConsoleError ConsoleIoReceive(uint8_t *buffer, const uint32_t bufferLength, uin
 
 eConsoleError ConsoleIoSendString(const char *buffer)
 {
-	uart_puts(UART_NUM, buffer);
+	//uart_puts(UART_NUM, buffer);
+	uart_tx_program_puts(pio, sm, buffer);
 	return CONSOLE_SUCCESS;
 }
 
