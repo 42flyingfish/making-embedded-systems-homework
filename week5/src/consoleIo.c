@@ -4,10 +4,19 @@
 #include "consoleIo.h"
 #include <stdio.h>
 #include "hardware/uart.h"
+#include "pico/stdlib.h"
 
 
 eConsoleError ConsoleIoInit(void)
 {
+	/*
+	 * Sets up default urart
+	 * TX on GPIO 0
+	 * RX on GPIO 1
+	 * UART 0
+	 * baudrate 115200
+	 */
+	setup_default_uart();
 	return CONSOLE_SUCCESS;
 }
 
