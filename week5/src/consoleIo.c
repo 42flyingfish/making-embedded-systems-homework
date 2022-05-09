@@ -16,7 +16,14 @@ eConsoleError ConsoleIoInit(void)
 	 * UART 0
 	 * baudrate 115200
 	 */
-	setup_default_uart();
+
+#define UART_NUM uart0
+#define UART_TX 0
+#define UART_RX 0
+#define BAUD 115200
+	uart_init(UART_NUM, BAUD);
+	gpio_set_function(UART_TX, GPIO_FUNC_UART);
+	gpio_set_function(UART_RX, GPIO_FUNC_UART);
 	return CONSOLE_SUCCESS;
 }
 
