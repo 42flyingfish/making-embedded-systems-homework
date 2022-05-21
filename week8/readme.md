@@ -41,7 +41,7 @@ Static variable in a function: 0x20000494
 
 ## Observations
 * The changes to output seems to make sense. 
-* There are a few sections between the .data and .bss in the linker file that I left untouched. There might be a few unintended consequences caused by my actions that I might have caused.
+* There are a few sections between the .data and .bss in the linker file that I left untouched. There might be a few unintended consequences caused by this.
 
 ### Notes on hookup
 Everything is printed over uart.
