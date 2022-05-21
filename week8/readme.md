@@ -8,7 +8,7 @@ This is based on the pico-sdk.
 
 Make sure that you have PICO_SDK_PATH environmental variable defined before compiling.
 
-I altered the link file by making a copy of the [default link file provided by the SDK](https://github.com/raspberrypi/pico-sdk/blob/426e46126b5a1efaea4544cdb71ab81b61983034/src/rp2_common/pico_standard_link/memmap_default.ld) and swapping the .bss and .data sections in the script. I'm still new to cmake, but it turns out that the [SDK provides a function](https://github.com/raspberrypi/pico-sdk/blob/426e46126b5a1efaea4544cdb71ab81b61983034/src/rp2_common/pico_standard_link/CMakeLists.txt#L36) for using your own link file. Using what I found, I made a CmakeList.txt that produces a binary for the default link file and the moddified link file. The defaultLinker.uf2 and swappedLinker.uf2 built use memmap_default.ld and swapped.ld respectively.
+I altered the link file by making a copy of the [default link file provided by the SDK](https://github.com/raspberrypi/pico-sdk/blob/426e46126b5a1efaea4544cdb71ab81b61983034/src/rp2_common/pico_standard_link/memmap_default.ld) and swapping the .bss and .data sections in the script. I'm still new to cmake, but it turns out that the [SDK provides a function](https://github.com/raspberrypi/pico-sdk/blob/426e46126b5a1efaea4544cdb71ab81b61983034/src/rp2_common/pico_standard_link/CMakeLists.txt#L36) for using your own link file. I learned of it from browsing the [Raspberry Pi forum](https://forums.raspberrypi.com/viewtopic.php?f=144&t=318030&p=1904181#p1904197). Using what I found, I made a CmakeList.txt that produces a binary for the default link file and the moddified link file. The defaultLinker.uf2 and swappedLinker.uf2 built use memmap_default.ld and swapped.ld respectively.
 
 ## defaultLinker output
 ```console
@@ -52,4 +52,3 @@ Everything is printed over uart.
 | RX | GPIO 1 |
 | baudrate | 115200 |
 | uart | uart0 |
-
