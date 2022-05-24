@@ -4,19 +4,17 @@ project(console_project C CXX ASM)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 pico_sdk_init()
-add_executable(console
+add_executable(final
 	main.c
-	console.h
-	console.c
-	consoleIo.h
-	consoleIo.c
-	consoleCommands.h
-	consoleCommands.c
-	version.h
 )
-pico_add_extra_outputs(console)
-target_link_libraries(console pico_stdlib)
+
+add_subdirectory(console)
+target_link_libraries(Console PUBLIC pico_stdlib)
+
+
+pico_add_extra_outputs(final)
+target_link_libraries(final PRIVATE Console pico_stdlib)
 
 # enable uart output and disable usb output
-pico_enable_stdio_usb(console 0)
-pico_enable_stdio_uart(console 1)
+pico_enable_stdio_usb(final 0)
+pico_enable_stdio_uart(final 1)

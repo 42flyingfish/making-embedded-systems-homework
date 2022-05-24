@@ -2,7 +2,7 @@
 // In an embedded system, this might interface to a UART driver.
 
 #include "consoleIo.h"
-#include <stdio.h>
+//#include <stdio.h>
 #include "hardware/uart.h"
 #include "pico/stdlib.h"
 
@@ -37,7 +37,6 @@ eConsoleError ConsoleIoReceive(uint8_t *buffer, const uint32_t bufferLength, uin
 		buffer[i] = (uint8_t) ch;
 		++i;
 	}
-	//uart_puts(uart0, "The function is called\n\r");
 
 	*readLength = i;
 	return CONSOLE_SUCCESS;
@@ -48,4 +47,3 @@ eConsoleError ConsoleIoSendString(const char *buffer)
 	uart_puts(UART_NUM, buffer);
 	return CONSOLE_SUCCESS;
 }
-

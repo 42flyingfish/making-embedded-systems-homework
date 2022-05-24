@@ -1,5 +1,5 @@
 #include "pico/stdlib.h"
-#include "console.h"
+#include "console/console.h"
 
 int main() {
 
@@ -7,7 +7,6 @@ int main() {
 
     while (true) {
 	    ConsoleProcess();
-	    //uart_puts(uart0, "What is this nonsense\n\r");
 	    sleep_ms(2);
     }
 }
