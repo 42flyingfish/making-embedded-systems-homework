@@ -1,3 +1,0 @@
-[submodule "final/src/st7789/st7789-library-for-pico"]
-	path = final/src/st7789/st7789-library-for-pico
-	url = git@github.com:ArmDeveloperEcosystem/st7789-library-for-pico.git
