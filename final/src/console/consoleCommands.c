@@ -11,6 +11,7 @@
 #include "console.h"
 #include "consoleIo.h"
 #include "version.h"
+#include "pico/st7789.h"
 
 #define IGNORE_UNUSED_VARIABLE(x)     if ( &x == &x ) {}
 
@@ -19,6 +20,7 @@ static eCommandResult_T ConsoleCommandVer(const char buffer[]);
 static eCommandResult_T ConsoleCommandHelp(const char buffer[]);
 static eCommandResult_T ConsoleCommandParamExampleInt16(const char buffer[]);
 static eCommandResult_T ConsoleCommandParamExampleHexUint16(const char buffer[]);
+static eCommandResult_T ConsoleCommandFillScreenUint16(const char buffer[]);
 
 static const sConsoleCommandTable_T mConsoleCommandTable[] =
 {
@@ -27,6 +29,7 @@ static const sConsoleCommandTable_T mConsoleCommandTable[] =
 	{"ver", &ConsoleCommandVer, HELP("Get the version string")},
 	{"int", &ConsoleCommandParamExampleInt16, HELP("How to get a signed int16 from params list: int -321")},
 	{"u16h", &ConsoleCommandParamExampleHexUint16, HELP("How to get a hex u16 from the params list: u16h aB12")},
+    {"fill", &ConsoleCommandFillScreenUint16, HELP("Fills the screen with a u16")},
 
 	CONSOLE_COMMAND_TABLE_END // must be LAST
 };
@@ -107,3 +110,17 @@ const sConsoleCommandTable_T* ConsoleCommandsGetTable(void)
 }
 
 
+static eCommandResult_T ConsoleCommandFillScreenUint16(const char buffer[])
+{
+    uint16_t parameterUint16;
+    eCommandResult_T result;
+    result = ConsoleReceiveParamHexUint16(buffer, 1, &parameterUint16);
+    if ( COMMAND_SUCCESS == result )
+    {
+        ConsoleIoSendString("Updating screen with 0x");
+        ConsoleSendParamHexUint16(parameterUint16);
+        st7789_fill(parameterUint16);
+        ConsoleIoSendString(STR_ENDLINE);
+    }
+    return result;
+}

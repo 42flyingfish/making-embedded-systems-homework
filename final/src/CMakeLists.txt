@@ -8,12 +8,16 @@ add_executable(final
 	main.c
 )
 
+add_subdirectory(st7789)
+
 add_subdirectory(console)
-target_link_libraries(Console PUBLIC pico_stdlib)
+target_link_libraries(Console PUBLIC pico_stdlib pico_st7789)
+
+
 
 
 pico_add_extra_outputs(final)
-target_link_libraries(final PRIVATE Console pico_stdlib)
+target_link_libraries(final PRIVATE Console pico_stdlib pico_st7789)
 
 # enable uart output and disable usb output
 pico_enable_stdio_usb(final 0)
