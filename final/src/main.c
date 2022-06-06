@@ -20,7 +20,7 @@ int main() {
 
     ConsoleInit();
     st7789_init(&lcd_config, lcd_width, lcd_height);
-    st7789_fill(0xf0ff);
+    st7789_fill(0xffff);
 
 
 
