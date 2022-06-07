@@ -10,16 +10,16 @@ add_executable(final
 
 add_subdirectory(st7789)
 add_subdirectory(drawing)
-target_link_libraries(drawing pico_st7789)
+target_link_libraries(Drawing INTERFACE pico_st7789)
 
 add_subdirectory(console)
-target_link_libraries(Console PUBLIC pico_stdlib pico_st7789 drawing)
+target_link_libraries(Console PRIVATE pico_stdlib pico_st7789 Drawing)
 
 
 
 
 pico_add_extra_outputs(final)
-target_link_libraries(final PRIVATE Console pico_stdlib pico_st7789 drawing)
+target_link_libraries(final PRIVATE Console pico_stdlib pico_st7789)
 
 # enable uart output and disable usb output
 pico_enable_stdio_usb(final 0)

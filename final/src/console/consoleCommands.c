@@ -10,6 +10,7 @@
 #include "consoleCommands.h"
 #include "console.h"
 #include "consoleIo.h"
+#include "draw.h"
 #include "version.h"
 #include "pico/st7789.h"
 
@@ -21,6 +22,10 @@ static eCommandResult_T ConsoleCommandHelp(const char buffer[]);
 static eCommandResult_T ConsoleCommandParamExampleInt16(const char buffer[]);
 static eCommandResult_T ConsoleCommandParamExampleHexUint16(const char buffer[]);
 static eCommandResult_T ConsoleCommandFillScreenUint16(const char buffer[]);
+static eCommandResult_T ConsoleCommandGetCursor(const char buffer[]);
+static eCommandResult_T ConsoleCommandSetCursorX(const char buffer[]);
+static eCommandResult_T ConsoleCommandSetCursorY(const char buffer[]);
+static eCommandResult_T ConsoleCommandDrawPixel(const char buffer[]);
 
 static const sConsoleCommandTable_T mConsoleCommandTable[] =
 {
@@ -29,7 +34,11 @@ static const sConsoleCommandTable_T mConsoleCommandTable[] =
 	{"ver", &ConsoleCommandVer, HELP("Get the version string")},
 	{"int", &ConsoleCommandParamExampleInt16, HELP("How to get a signed int16 from params list: int -321")},
 	{"u16h", &ConsoleCommandParamExampleHexUint16, HELP("How to get a hex u16 from the params list: u16h aB12")},
-    {"fill", &ConsoleCommandFillScreenUint16, HELP("Fills the screen with a u16")},
+	{"fill", &ConsoleCommandFillScreenUint16, HELP("Fills the screen with a u16")},
+	{"getcursor", &ConsoleCommandGetCursor, HELP("Returns the drawing cursor position")},
+    {"setcursorx", &ConsoleCommandSetCursorX, HELP("Sets the x cursor position")},
+    {"setcursory", &ConsoleCommandSetCursorY, HELP("Sets the y cursor position")},
+    {"drawpixel", &ConsoleCommandDrawPixel, HELP("Draws a pixel on the screen at the set cursor location")},
 
 	CONSOLE_COMMAND_TABLE_END // must be LAST
 };
@@ -112,15 +121,74 @@ const sConsoleCommandTable_T* ConsoleCommandsGetTable(void)
 
 static eCommandResult_T ConsoleCommandFillScreenUint16(const char buffer[])
 {
-    uint16_t parameterUint16;
+	uint16_t parameterUint16;
+	eCommandResult_T result;
+	result = ConsoleReceiveParamHexUint16(buffer, 1, &parameterUint16);
+	if ( COMMAND_SUCCESS == result )
+	{
+		ConsoleIoSendString("Updating screen with 0x");
+		ConsoleSendParamHexUint16(parameterUint16);
+		st7789_fill(parameterUint16);
+		ConsoleIoSendString(STR_ENDLINE);
+	}
+	return result;
+}
+
+static eCommandResult_T ConsoleCommandGetCursor(const char buffer[]) {
+	eCommandResult_T result = COMMAND_SUCCESS;
+	IGNORE_UNUSED_VARIABLE(buffer);
+
+	ConsoleIoSendString("Cursor X is ");
+	ConsoleSendParamInt16(getCursorX());
+	ConsoleIoSendString(" Cursor Y is ");
+	ConsoleSendParamInt16(getCursorY());
+	ConsoleIoSendString(STR_ENDLINE);
+	return result;
+}
+
+static eCommandResult_T ConsoleCommandSetCursorX(const char buffer[])
+{
+    int16_t parameterInt;
     eCommandResult_T result;
-    result = ConsoleReceiveParamHexUint16(buffer, 1, &parameterUint16);
+    result = ConsoleReceiveParamInt16(buffer, 1, &parameterInt);
     if ( COMMAND_SUCCESS == result )
     {
-        ConsoleIoSendString("Updating screen with 0x");
-        ConsoleSendParamHexUint16(parameterUint16);
-        st7789_fill(parameterUint16);
+        setCursorX(parameterInt);
+        ConsoleIoSendString("Parameter is ");
+        ConsoleSendParamInt16(parameterInt);
+        ConsoleIoSendString(" cursor x set to ");
+        ConsoleSendParamInt16(getCursorX());
         ConsoleIoSendString(STR_ENDLINE);
     }
+    return result;
+}
+
+static eCommandResult_T ConsoleCommandSetCursorY(const char buffer[])
+{
+    int16_t parameterInt;
+    eCommandResult_T result;
+    result = ConsoleReceiveParamInt16(buffer, 1, &parameterInt);
+    if ( COMMAND_SUCCESS == result )
+    {
+        setCursorY(parameterInt);
+        ConsoleIoSendString("Parameter is ");
+        ConsoleSendParamInt16(parameterInt);
+        ConsoleIoSendString(" cursor y set to ");
+        ConsoleSendParamInt16(getCursorY());
+        ConsoleIoSendString(STR_ENDLINE);
+    }
+    return result;
+}
+
+static eCommandResult_T ConsoleCommandDrawPixel(const char buffer[]) {
+    eCommandResult_T result = COMMAND_SUCCESS;
+    IGNORE_UNUSED_VARIABLE(buffer);
+
+    ConsoleIoSendString("Cursor X is ");
+    ConsoleSendParamInt16(getCursorX());
+    ConsoleIoSendString(" Cursor Y is ");
+    ConsoleSendParamInt16(getCursorY());
+    drawPixel();
+    ConsoleIoSendString(STR_ENDLINE);
     return result;
 }
