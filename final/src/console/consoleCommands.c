@@ -26,6 +26,10 @@ static eCommandResult_T ConsoleCommandGetCursor(const char buffer[]);
 static eCommandResult_T ConsoleCommandSetCursorX(const char buffer[]);
 static eCommandResult_T ConsoleCommandSetCursorY(const char buffer[]);
 static eCommandResult_T ConsoleCommandDrawPixel(const char buffer[]);
+static eCommandResult_T ConsoleCommandGetColor(const char buffer[]);
+static eCommandResult_T ConsoleCommandNextColor(const char buffer[]);
+static eCommandResult_T ConsoleCommandFillScreenCurrent(const char buffer[]);
+
 
 static const sConsoleCommandTable_T mConsoleCommandTable[] =
 {
@@ -39,6 +43,9 @@ static const sConsoleCommandTable_T mConsoleCommandTable[] =
     {"setcursorx", &ConsoleCommandSetCursorX, HELP("Sets the x cursor position")},
     {"setcursory", &ConsoleCommandSetCursorY, HELP("Sets the y cursor position")},
     {"drawpixel", &ConsoleCommandDrawPixel, HELP("Draws a pixel on the screen at the set cursor location")},
+    {"getcolor", &ConsoleCommandGetColor, HELP("Gets the u16 value of the colour to draw")},
+    {"bucket", &ConsoleCommandFillScreenCurrent, HELP("Fill the screen with current colour")},
+    {"nextcolor", &ConsoleCommandNextColor, HELP("Cycle to next colour")},
 
 	CONSOLE_COMMAND_TABLE_END // must be LAST
 };
@@ -184,11 +191,49 @@ static eCommandResult_T ConsoleCommandDrawPixel(const char buffer[]) {
     eCommandResult_T result = COMMAND_SUCCESS;
     IGNORE_UNUSED_VARIABLE(buffer);
 
-    ConsoleIoSendString("Cursor X is ");
+    ConsoleIoSendString("Drawing 0x");
+    ConsoleSendParamHexUint16(getColorValue());
+    ConsoleIoSendString(" at X: ");
     ConsoleSendParamInt16(getCursorX());
-    ConsoleIoSendString(" Cursor Y is ");
+    ConsoleIoSendString(" Y: ");
     ConsoleSendParamInt16(getCursorY());
     drawPixel();
+    ConsoleIoSendString(STR_ENDLINE);
+    return result;
+}
+
+static eCommandResult_T ConsoleCommandGetColor(const char buffer[]) {
+    eCommandResult_T result = COMMAND_SUCCESS;
+    IGNORE_UNUSED_VARIABLE(buffer);
+
+    ConsoleIoSendString("The current value to draw is ");
+    ConsoleSendParamHexUint16(getColorValue());
+    ConsoleIoSendString(STR_ENDLINE);
+    return result;
+}
+
+static eCommandResult_T ConsoleCommandFillScreenCurrent(const char buffer[])
+{
+    eCommandResult_T result = COMMAND_SUCCESS;
+    IGNORE_UNUSED_VARIABLE(buffer);
+    if ( COMMAND_SUCCESS == result )
+    {
+        ConsoleIoSendString("Updating screen with 0x");
+        ConsoleSendParamHexUint16(getColorValue());
+        st7789_fill(getColorValue());
+        ConsoleIoSendString(STR_ENDLINE);
+    }
+    return result;
+}
+
+static eCommandResult_T ConsoleCommandNextColor(const char buffer[]) {
+    eCommandResult_T result = COMMAND_SUCCESS;
+    IGNORE_UNUSED_VARIABLE(buffer);
+
+    nextColor();
+
+    ConsoleIoSendString("The current value to draw is ");
+    ConsoleSendParamHexUint16(getColorValue());
     ConsoleIoSendString(STR_ENDLINE);
     return result;
 }
