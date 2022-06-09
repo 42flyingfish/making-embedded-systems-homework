@@ -5,6 +5,7 @@
 
 enum Color {Red, Orange, Yellow, Green, Cyan, Blue, Violet, Black, White};
 
+void drawInit(void);
 uint16_t getCursorX(void);
 uint16_t getCursorY(void);
 void setCursorX(uint16_t);

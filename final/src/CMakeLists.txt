@@ -13,7 +13,7 @@ add_subdirectory(drawing)
 target_link_libraries(Drawing INTERFACE pico_st7789)
 
 add_subdirectory(console)
-target_link_libraries(Console PRIVATE pico_stdlib pico_st7789 Drawing)
+target_link_libraries(Console PRIVATE pico_stdlib Drawing)
 
 
 
