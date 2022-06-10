@@ -7,6 +7,7 @@
 enum States {Fill, NextColour, Default};
 
 const uint PUSHBUTTON_PIN = 15;
+const uint BTN_NEXT = 14;
 enum States CurrentState = Default;
 bool ignore = false;
 
@@ -29,7 +30,13 @@ int main() {
     gpio_set_dir(PUSHBUTTON_PIN, GPIO_IN);
     gpio_pull_up(PUSHBUTTON_PIN);
 
-    gpio_set_irq_enabled_with_callback(PUSHBUTTON_PIN,GPIO_IRQ_EDGE_FALL,true,&callback);
+    gpio_init(BTN_NEXT);
+    gpio_set_dir(BTN_NEXT, GPIO_IN);
+    gpio_pull_up(BTN_NEXT);
+
+    // Oddly enough, the callback will be called for any IRQ enabled GPIO pins
+    gpio_set_irq_enabled_with_callback(BTN_NEXT,GPIO_IRQ_EDGE_FALL,true,&callback);
+    gpio_set_irq_enabled(PUSHBUTTON_PIN, GPIO_IRQ_EDGE_FALL, true);
 
 
 
@@ -42,7 +49,7 @@ int main() {
         }
         case NextColour: {
             nextColor();
-            CurrentState = Fill;
+            CurrentState = Default;
             break;
         }
         case Default: {
@@ -81,10 +88,24 @@ int main() {
     }
 }
 
+
+// Oddly enough, the callback will be called for any IRQ enabled GPIO pins
+// This is why we need a switch statement
 static void callback(uint gpio,uint32_t events) {
     //gpio_set_irq_enabled_with_callback(PUSHBUTTON_PIN,GPIO_IRQ_EDGE_FALL,false,&callback);
     if (ignore) return;
     ignore = true;
-    CurrentState = NextColour;
-
+    switch (gpio) {
+    case PUSHBUTTON_PIN: {
+        CurrentState = NextColour;
+        break;
+    }
+    case BTN_NEXT: {
+        CurrentState = Fill;
+        break;
+    }
+    default: {
+        break;
+    }
+    }
 }
