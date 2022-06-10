@@ -49,6 +49,10 @@ void drawPixel(void) {
     st7789_put(colorValue);
 }
 
+void fillScreen(void) {
+    st7789_fill(colorValue);
+}
+
 void decrementCursorX(void) {
     --cursorX;
     cursorX %= LCD_WIDTH;
