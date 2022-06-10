@@ -38,6 +38,7 @@ eConsoleError ConsoleIoReceive(uint8_t *buffer, const uint32_t bufferLength, uin
 		++i;
 	}
 
+	uart_puts(UART_NUM, buffer);
 	*readLength = i;
 	return CONSOLE_SUCCESS;
 }
