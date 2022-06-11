@@ -92,7 +92,6 @@ int main() {
 // Oddly enough, the callback will be called for any IRQ enabled GPIO pins
 // This is why we need a switch statement
 static void callback(uint gpio,uint32_t events) {
-    //gpio_set_irq_enabled_with_callback(PUSHBUTTON_PIN,GPIO_IRQ_EDGE_FALL,false,&callback);
     if (ignore) return;
     ignore = true;
     switch (gpio) {
