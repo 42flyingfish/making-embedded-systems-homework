@@ -1,4 +1,4 @@
-Code is modified from Elicia White's https://github.com/eleciawhite/reusable
+Code is modified from Elecia White's https://github.com/eleciawhite/reusable
 
 Below is a copy of the contents of LICENCE from commit https://github.com/eleciawhite/reusable/commit/18c006b43f47f1e60e2d0939772bc8c9102f93b1
 
