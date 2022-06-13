@@ -11,6 +11,7 @@ uint16_t getCursorY(void);
 void setCursorX(uint16_t);
 void setCursorY(uint16_t);
 void drawPixel(void);
+void fillScreenWithColour(uint16_t);
 void fillScreen(void);
 void decrementCursorX(void);
 void decrementCursorY(void);
