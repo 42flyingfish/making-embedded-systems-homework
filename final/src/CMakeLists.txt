@@ -19,7 +19,7 @@ target_link_libraries(Console PRIVATE pico_stdlib Drawing)
 
 
 pico_add_extra_outputs(final)
-target_link_libraries(final PRIVATE Console pico_stdlib pico_st7789 Drawing hardware_adc)
+target_link_libraries(final PRIVATE Console pico_stdlib Drawing hardware_adc)
 
 # enable uart output and disable usb output
 pico_enable_stdio_usb(final 0)

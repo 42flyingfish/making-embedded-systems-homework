@@ -49,6 +49,10 @@ void drawPixel(void) {
     st7789_put(colorValue);
 }
 
+void fillScreenWithColour(uint16_t value) {
+	st7789_fill(value);
+}
+
 void fillScreen(void) {
     st7789_fill(colorValue);
 }

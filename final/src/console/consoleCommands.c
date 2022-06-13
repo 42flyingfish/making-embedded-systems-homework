@@ -12,7 +12,6 @@
 #include "consoleIo.h"
 #include "draw.h"
 #include "version.h"
-#include "pico/st7789.h"
 
 #define IGNORE_UNUSED_VARIABLE(x)     if ( &x == &x ) {}
 
@@ -40,12 +39,12 @@ static const sConsoleCommandTable_T mConsoleCommandTable[] =
 	{"u16h", &ConsoleCommandParamExampleHexUint16, HELP("How to get a hex u16 from the params list: u16h aB12")},
 	{"fill", &ConsoleCommandFillScreenUint16, HELP("Fills the screen with a u16")},
 	{"getcursor", &ConsoleCommandGetCursor, HELP("Returns the drawing cursor position")},
-    {"setcursorx", &ConsoleCommandSetCursorX, HELP("Sets the x cursor position")},
-    {"setcursory", &ConsoleCommandSetCursorY, HELP("Sets the y cursor position")},
-    {"drawpixel", &ConsoleCommandDrawPixel, HELP("Draws a pixel on the screen at the set cursor location")},
-    {"getcolor", &ConsoleCommandGetColor, HELP("Gets the u16 value of the colour to draw")},
-    {"bucket", &ConsoleCommandFillScreenCurrent, HELP("Fill the screen with current colour")},
-    {"nextcolor", &ConsoleCommandNextColor, HELP("Cycle to next colour")},
+	{"setcursorx", &ConsoleCommandSetCursorX, HELP("Sets the x cursor position")},
+	{"setcursory", &ConsoleCommandSetCursorY, HELP("Sets the y cursor position")},
+	{"drawpixel", &ConsoleCommandDrawPixel, HELP("Draws a pixel on the screen at the set cursor location")},
+	{"getcolor", &ConsoleCommandGetColor, HELP("Gets the u16 value of the colour to draw")},
+	{"bucket", &ConsoleCommandFillScreenCurrent, HELP("Fill the screen with current colour")},
+	{"nextcolor", &ConsoleCommandNextColor, HELP("Cycle to next colour")},
 
 	CONSOLE_COMMAND_TABLE_END // must be LAST
 };
@@ -135,7 +134,7 @@ static eCommandResult_T ConsoleCommandFillScreenUint16(const char buffer[])
 	{
 		ConsoleIoSendString("Updating screen with 0x");
 		ConsoleSendParamHexUint16(parameterUint16);
-		st7789_fill(parameterUint16);
+		fillScreenWithColour(parameterUint16);
 		ConsoleIoSendString(STR_ENDLINE);
 	}
 	return result;
@@ -206,7 +205,7 @@ static eCommandResult_T ConsoleCommandGetColor(const char buffer[]) {
     eCommandResult_T result = COMMAND_SUCCESS;
     IGNORE_UNUSED_VARIABLE(buffer);
 
-    ConsoleIoSendString("The current value to draw is ");
+    ConsoleIoSendString("The current value to draw is 0x");
     ConsoleSendParamHexUint16(getColorValue());
     ConsoleIoSendString(STR_ENDLINE);
     return result;
@@ -220,7 +219,7 @@ static eCommandResult_T ConsoleCommandFillScreenCurrent(const char buffer[])
     {
         ConsoleIoSendString("Updating screen with 0x");
         ConsoleSendParamHexUint16(getColorValue());
-        st7789_fill(getColorValue());
+        fillScreen();
         ConsoleIoSendString(STR_ENDLINE);
     }
     return result;
@@ -232,7 +231,7 @@ static eCommandResult_T ConsoleCommandNextColor(const char buffer[]) {
 
     nextColor();
 
-    ConsoleIoSendString("The current value to draw is ");
+    ConsoleIoSendString("The current value to draw is 0x");
     ConsoleSendParamHexUint16(getColorValue());
     ConsoleIoSendString(STR_ENDLINE);
     return result;
